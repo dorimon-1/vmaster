@@ -1,0 +1,10 @@
+microserviceA:
+  image:
+    pullPolicy: IfNotPresent
+    repository: myorg/microservice-a
+    tag: '"5.0.1"'
+microserviceB:
+  image:
+    pullPolicy: IfNotPresent
+    repository: myorg/microservice-b
+    tag: 2.1.0
