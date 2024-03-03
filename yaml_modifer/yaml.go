@@ -1,4 +1,4 @@
-package yaml
+package yaml_modifer
 
 import (
 	"bufio"
@@ -65,7 +65,6 @@ func UpdateYAML(path string, objects []yamlObject) error {
 			return fmt.Errorf("writing config: %s", err)
 		}
 
-		// Conditionally write the separator to avoid it at the end of the file
 		if i < len(objects)-1 {
 			if _, err := w.WriteString("---\n"); err != nil {
 				return fmt.Errorf("writing separator: %s", err)

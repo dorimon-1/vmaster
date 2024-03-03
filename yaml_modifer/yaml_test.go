@@ -1,11 +1,11 @@
-package yaml
+package yaml_modifer
 
 import (
 	"testing"
 )
 
 func TestParseWrite(t *testing.T) {
-	path := "../../example/5.0.1/values.yaml"
+	path := "../example/5.0.1/values.yaml"
 
 	objects, err := ParseYAML(path)
 	if err != nil {
