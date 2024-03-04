@@ -1,4 +1,4 @@
-package yaml_modifer
+package yaml_modifier
 
 import (
 	"testing"
@@ -12,7 +12,7 @@ func TestParseWrite(t *testing.T) {
 		t.Errorf("Error parsing yaml: %s", err)
 	}
 
-	objects[0]["microserviceA"].(yamlObject)["image"].(yamlObject)["tag"] = "\"5.0.1\""
+	objects["microserviceA"].Image.Tag = "5.0.2"
 	UpdateYAML(path, objects)
 
 	_, err = ParseYAML(path)
