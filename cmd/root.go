@@ -12,9 +12,8 @@ import (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "vmaster",
-	Short: "vmaster is a tool to manage versioning of your project using GitOps",
-	Long: `vmaster is configured to work with a specific git repository and by your input it 
-	updates your yaml in the repository to the latest version of your project.`,
+	Short: "vmaster helps you to manage your project's versioning when using helm charts.",
+	Long:  `vmaster is a CLI tool that helps you to manage your project's versioning when using helm charts.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },

@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"gopkg.in/yaml.v2"
 )
@@ -24,7 +25,12 @@ func NewConfig() *Config {
 }
 
 func LoadConfig(path string) (*Config, error) {
-	f, err := os.Open(path)
+	absPath, err := filepath.Abs(path)
+	if err != nil {
+		return nil, fmt.Errorf("getting absolute path: %v", err)
+	}
+	fmt.Println(absPath)
+	f, err := os.Open(absPath)
 	if err != nil {
 		return nil, fmt.Errorf("opening file %s: %v", path, err)
 	}
