@@ -1,0 +1,13 @@
+environments:
+  5.0.1:
+    name: "microserviceA"
+    version_prefix: "5.1"
+    file_path: "./example/5.0.1/values.yaml"
+  Automation:
+    name: "Automation"
+    version_prefix: "5.1"
+    file_path: "./example/5.1/values.yaml"
+  QA:
+    name: "QA"
+    version_prefix: "5.0.1"
+    file_path: "/path/to/qa/value.yaml"

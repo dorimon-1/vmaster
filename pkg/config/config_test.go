@@ -13,8 +13,8 @@ func TestLoadConfig(t *testing.T) {
 	}
 
 	fmt.Println(*cfg)
-	if cfg.Enviroments["Development"].Name != "Development" {
-		t.Errorf("Expected Development got %s", cfg.Enviroments["Development"].Name)
+	if cfg.Environments["Development"].Name != "Development" {
+		t.Errorf("Expected Development got %s", cfg.Environments["Development"].Name)
 	}
 }
 

@@ -1,0 +1,13 @@
+environments:
+  Development:
+    name: "Development"
+    version_prefix: "5.1"
+    file_path: "/path/to/dev/value.yaml"
+  Automation:
+    name: "Automation"
+    version_prefix: "5.1"
+    file_path: "/path/to/automation/value.yaml"
+  QA:
+    name: "QA"
+    version_prefix: "5.0.1"
+    file_path: "/path/to/qa/value.yaml"

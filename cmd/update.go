@@ -8,9 +8,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/dorimon-1/vmaster/config"
-	"github.com/dorimon-1/vmaster/utility"
-	"github.com/dorimon-1/vmaster/yaml_modifier"
+	"github.com/dorimon-1/vmaster/pkg/config"
+	"github.com/dorimon-1/vmaster/pkg/utility"
+	"github.com/dorimon-1/vmaster/pkg/yaml_modifier"
 )
 
 // updateCmd represents the update command
@@ -29,34 +29,41 @@ var updateCmd = &cobra.Command{
 		fmt.Println("Environment: ", env)
 
 		arguments := utility.SplitArguments(args)
-		fmt.Println(arguments)
+
 		config, err := config.LoadConfig("./config.yaml")
 		if err != nil {
 			fmt.Println("Error loading config: ", err)
 			return
 		}
 
-		services, err := yaml_modifier.ParseYAML(config.Enviroments[env].FilePath)
-		if err != nil {
-			fmt.Println("Error parsing yaml: ", err)
-			return
+		if err := doUpdate(config, env, arguments); err != nil {
+			fmt.Println("Error updating: ", err)
 		}
-
-		for key, value := range arguments {
-			if _, ok := services[key]; ok {
-				services[key].Image.Tag = value
-				fmt.Println(services[key].Image.Tag)
-			} else {
-				fmt.Println("Service not found: ", key)
-			}
-		}
-
-		if err := yaml_modifier.UpdateYAML(config.Enviroments[env].FilePath, services); err != nil {
-			fmt.Println("Error updating yaml: ", err)
-			return
-		}
-		fmt.Println("Done")
 	},
+}
+
+func doUpdate(config *config.Config, env string, args map[string]string) error {
+	fmt.Println("Environment: ", env)
+
+	services, err := yaml_modifier.ParseYAML(config.Environments[env].FilePath)
+	if err != nil {
+		return fmt.Errorf("Error parsing yaml: %s", err)
+	}
+
+	for key, value := range args {
+		if _, ok := services[key]; ok {
+			services[key].Image.Tag = value
+			fmt.Println(services[key].Image.Tag)
+		} else {
+			fmt.Println("Service not found: ", key)
+		}
+	}
+
+	if err := yaml_modifier.UpdateYAML(config.Environments[env].FilePath, services); err != nil {
+		fmt.Println("Error updating yaml: ", err)
+		return fmt.Errorf("Error updating yaml: %s", err)
+	}
+	return nil
 }
 
 func init() {

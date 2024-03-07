@@ -9,10 +9,10 @@ import (
 )
 
 type Config struct {
-	Enviroments map[string]Enviroment `yaml:"enviroments"`
+	Environments map[string]Environment `yaml:"environments"`
 }
 
-type Enviroment struct {
+type Environment struct {
 	Name          string `yaml:"name"`
 	VersionPrefix string `yaml:"version_prefix"`
 	FilePath      string `yaml:"file_path"`
@@ -20,7 +20,7 @@ type Enviroment struct {
 
 func NewConfig() *Config {
 	return &Config{
-		Enviroments: make(map[string]Enviroment),
+		Environments: make(map[string]Environment),
 	}
 }
 
@@ -29,7 +29,7 @@ func LoadConfig(path string) (*Config, error) {
 	if err != nil {
 		return nil, fmt.Errorf("getting absolute path: %v", err)
 	}
-	fmt.Println(absPath)
+
 	f, err := os.Open(absPath)
 	if err != nil {
 		return nil, fmt.Errorf("opening file %s: %v", path, err)
@@ -49,7 +49,7 @@ func LoadConfig(path string) (*Config, error) {
 func GenerateConfig() *Config {
 	cfg := NewConfig()
 
-	cfg.Enviroments["Development"] = Enviroment{
+	cfg.Environments["Development"] = Environment{
 		Name:          "Development",
 		VersionPrefix: "v1",
 		FilePath:      "./development.yaml",

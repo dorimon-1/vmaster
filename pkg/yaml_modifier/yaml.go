@@ -6,7 +6,7 @@ import (
 
 	"gopkg.in/yaml.v2"
 
-	"github.com/dorimon-1/vmaster/service"
+	"github.com/dorimon-1/vmaster/pkg/service"
 )
 
 func ParseYAML(path string) (service.Microservices, error) {
