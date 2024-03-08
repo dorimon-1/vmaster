@@ -28,7 +28,6 @@ func ParseYAML(path string) (service.Microservices, error) {
 }
 
 func UpdateYAML(path string, objects service.Microservices) error {
-	// Open the file for writing, create if not exists, and truncate if it does
 	f, err := os.OpenFile(path, os.O_WRONLY|os.O_TRUNC, 0644)
 	if err != nil {
 		return fmt.Errorf("opening config file: %s", err)

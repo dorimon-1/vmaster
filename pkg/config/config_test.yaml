@@ -1,4 +1,4 @@
-enviroments:
+environments:
   Development:
     name: Development
     version_prefix: v1

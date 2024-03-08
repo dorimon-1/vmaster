@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -12,7 +11,6 @@ func TestLoadConfig(t *testing.T) {
 		t.Errorf("Error loading config: %v", err)
 	}
 
-	fmt.Println(*cfg)
 	if cfg.Environments["Development"].Name != "Development" {
 		t.Errorf("Expected Development got %s", cfg.Environments["Development"].Name)
 	}
