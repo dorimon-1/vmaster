@@ -44,7 +44,6 @@ var prefixCmd = &cobra.Command{
 
 func doPrefix(prefix string, c *config.Config, arguments map[string]string) error {
 	var wg sync.WaitGroup
-	fmt.Println("Environments: ", c.Environments)
 	for _, v := range c.Environments {
 		if v.VersionPrefix == prefix {
 			wg.Add(1)
@@ -63,7 +62,6 @@ func doPrefix(prefix string, c *config.Config, arguments map[string]string) erro
 }
 
 func performUpdate(arguments map[string]string, env *config.Environment) error {
-	fmt.Println("Updating: ", env.FilePath)
 	service, err := yaml_modifier.ParseYAML(env.FilePath)
 	if err != nil {
 		return fmt.Errorf("Error parsing yaml: %v", err)
@@ -87,8 +85,8 @@ func performUpdate(arguments map[string]string, env *config.Environment) error {
 }
 
 func init() {
-	updateCmd.AddCommand(prefixCmd)
-	updateCmd.PersistentFlags().StringP("prefix", "p", "", "Prefix for the version")
+	rootCmd.AddCommand(prefixCmd)
+	rootCmd.PersistentFlags().StringP("prefix", "p", "", "Prefix for the version")
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command

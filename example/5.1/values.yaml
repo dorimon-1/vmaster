@@ -2,7 +2,7 @@ microserviceA:
   image:
     pullPolicy: IfNotPresent
     repository: myorg/microservice-a
-    tag: 2.1.1
+    tag: "1.2"
 microserviceB:
   image:
     pullPolicy: IfNotPresent

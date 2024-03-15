@@ -10,4 +10,4 @@ environments:
   QA:
     name: "QA"
     version_prefix: "5.0.1"
-    file_path: "/path/to/qa/value.yaml"
+    file_path: "./example/5.0.1/values.yaml"

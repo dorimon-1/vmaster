@@ -24,7 +24,14 @@ run:
 	cd .. && ./$(BINARY_NAME)
 deps:
 	$(GOGET) -v -d ./...
+install: build
+	cd ..  
+	/bin/bash -c 'sudo cp $(BINARY_NAME) /usr/local/bin/'
+	@echo "Installed $(BINARY_NAME) to /usr/local/bin/"
 
+uninstall:
+	cd .. && sudo rm /usr/local/bin/$(BINARY_NAME)
+	@echo "Uninstalled $(BINARY_NAME) from /usr/local/bin"
 # Cross compilation
 build-linux:
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 cd $(MAIN_DIR) && $(GOBUILD) -o ../$(BINARY_UNIX) -v
