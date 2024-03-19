@@ -1,43 +1,78 @@
 package yaml_modifier
 
 import (
+	"bufio"
 	"fmt"
+	"io"
 	"os"
 
 	"gopkg.in/yaml.v2"
 
-	"github.com/dorimon-1/vmaster/pkg/service"
+	"github.com/dorimon-1/vmaster/pkg/yaml_reader"
 )
 
-func ParseYAML(path string) (service.Microservices, error) {
+type YamlObject map[any]any
+
+func ParseYAML(path string) ([]YamlObject, error) {
 	f, err := os.Open(path)
 	if err != nil {
 		return nil, fmt.Errorf("opening config file %s\n", err.Error())
 	}
 	defer f.Close()
 
-	microservices := make(service.Microservices)
+	var objects []YamlObject
+	reader := yaml_reader.NewYAMLReader(bufio.NewReader(f))
 
-	decoder := yaml.NewDecoder(f)
+	for {
+		doc, err := reader.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return nil, fmt.Errorf("reading config file: %s", err)
+		}
+		obj := make(YamlObject)
+		if err := yaml.Unmarshal(doc, &obj); err != nil {
+			return nil, fmt.Errorf("unmarshaling config file: %s", err)
+		}
 
-	if err := decoder.Decode(&microservices); err != nil {
-		return nil, fmt.Errorf("decoding config file %s\n", err.Error())
+		objects = append(objects, obj)
 	}
-
-	return microservices, nil
+	return objects, nil
 }
 
-func UpdateYAML(path string, objects service.Microservices) error {
+func UpdateYAML(path string, objects []YamlObject) error {
+	// Open the file for writing, create if not exists, and truncate if it does
 	f, err := os.OpenFile(path, os.O_WRONLY|os.O_TRUNC, 0644)
 	if err != nil {
 		return fmt.Errorf("opening config file: %s", err)
 	}
 	defer f.Close()
 
-	encoder := yaml.NewEncoder(f)
+	w := bufio.NewWriter(f)
 
-	if err := encoder.Encode(objects); err != nil {
-		return fmt.Errorf("encoding config file: %s", err)
+	for i, obj := range objects {
+		data, err := yaml.Marshal(obj)
+		if err != nil {
+			return fmt.Errorf("marshaling config: %s", err)
+		}
+
+		fmt.Println(string(data)) // Debug print, consider removing for production
+		if _, err := w.Write(data); err != nil {
+			return fmt.Errorf("writing config: %s", err)
+		}
+
+		if i < len(objects)-1 {
+			if _, err := w.WriteString("---\n"); err != nil {
+				return fmt.Errorf("writing separator: %s", err)
+			}
+		}
 	}
+
+	// Flush at the end, checking for errors
+	if err := w.Flush(); err != nil {
+		return fmt.Errorf("flushing buffer: %s", err)
+	}
+
 	return nil
 }

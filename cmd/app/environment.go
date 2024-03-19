@@ -51,9 +51,8 @@ func doEnvironment(config *config.Config, env string, args map[string]string) er
 	}
 
 	for key, value := range args {
-		if _, ok := services[key]; ok {
-			services[key].Image.Tag = value
-			fmt.Println(services[key].Image.Tag)
+		if _, ok := services[0][key]; ok {
+			services[0][key].(yaml_modifier.YamlObject)["image"].(yaml_modifier.YamlObject)["tag"] = value
 		} else {
 			fmt.Println("Service not found: ", key)
 		}
@@ -80,4 +79,3 @@ func init() {
 	// is called directly, e.g.:
 	// updateCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
-

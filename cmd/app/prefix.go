@@ -67,11 +67,11 @@ func performUpdate(arguments map[string]string, env *config.Environment) error {
 		return fmt.Errorf("Error parsing yaml: %v", err)
 	}
 	for serviceName, serviceVersion := range arguments {
-		if _, ok := service[serviceName]; ok {
-			if service[serviceName].Image.Tag == serviceName {
+		if _, ok := service[0][serviceName]; ok {
+			if service[0][serviceName].(yaml_modifier.YamlObject)["image"].(yaml_modifier.YamlObject)["tag"] == serviceVersion {
 				continue
 			}
-			service[serviceName].Image.Tag = serviceVersion
+			service[0][serviceName].(yaml_modifier.YamlObject)["image"].(yaml_modifier.YamlObject)["tag"] = serviceVersion
 		} else {
 			fmt.Println("Service not found: ", serviceName)
 			continue

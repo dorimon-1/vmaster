@@ -12,7 +12,7 @@ func TestParseWrite(t *testing.T) {
 		return
 	}
 
-	objects["microserviceA"].Image.Tag = "5.0.2"
+	objects[0]["microserviceA"].(YamlObject)["image"].(YamlObject)["tag"] = "5.0.1"
 	UpdateYAML(path, objects)
 
 	_, err = ParseYAML(path)
