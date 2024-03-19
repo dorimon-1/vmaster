@@ -26,11 +26,18 @@ var environmentCmd = &cobra.Command{
 			fmt.Println("Environment not provided")
 			return
 		}
+
+		cfgPath, err := cmd.Flags().GetString("config")
+		if err != nil {
+			fmt.Println("Error getting config: ", err)
+			return
+		}
+		config, err := config.LoadConfig(cfgPath)
+
 		fmt.Println("Environment: ", env)
 
 		arguments := utility.SplitArguments(args)
 
-		config, err := config.LoadConfig("./config.yaml")
 		if err != nil {
 			fmt.Println("Error loading config: ", err)
 			return

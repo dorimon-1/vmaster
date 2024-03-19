@@ -28,7 +28,13 @@ var prefixCmd = &cobra.Command{
 			return
 		}
 
-		config, err := config.LoadConfig("./config.yaml")
+		cfgPath, err := cmd.Flags().GetString("config")
+		if err != nil {
+			fmt.Println("Error getting config: ", err)
+			return
+		}
+		config, err := config.LoadConfig(cfgPath)
+
 		if err != nil {
 			fmt.Println("Error loading config: ", err)
 			return
