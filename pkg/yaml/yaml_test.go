@@ -1,4 +1,4 @@
-package yaml_modifier
+package yaml
 
 import (
 	"testing"
