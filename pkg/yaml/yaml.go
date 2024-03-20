@@ -1,4 +1,4 @@
-package yaml_modifier
+package yaml
 
 import (
 	"bufio"
@@ -7,8 +7,6 @@ import (
 	"os"
 
 	"gopkg.in/yaml.v2"
-
-	"github.com/dorimon-1/vmaster/pkg/yaml_reader"
 )
 
 type YamlObject map[any]any
@@ -21,7 +19,7 @@ func ParseYAML(path string) ([]YamlObject, error) {
 	defer f.Close()
 
 	var objects []YamlObject
-	reader := yaml_reader.NewYAMLReader(bufio.NewReader(f))
+	reader := NewYAMLReader(bufio.NewReader(f))
 
 	for {
 		doc, err := reader.Read()
